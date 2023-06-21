@@ -2,18 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>LiuHeZhiXi-Labs</artifactId>
+        <groupId>org.example</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>LiuHeZhiXi-Labs</artifactId>
+    <artifactId>2-Lab_SpringSecurity</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
     <modules>
-        <!--如果是不需要用到的module，建议注释掉，需要使用的时候关闭注释即可-->
-
-        <module>1-Lab_Java8-Lambda</module>
-        <module>2-Lab_SpringSecurity</module>
-
+        <module>2-1-Lab_SpringSecurity-baseDemo</module>
+        <module>2-2-Lab_SpringSecurity-roleDemo</module>
     </modules>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
