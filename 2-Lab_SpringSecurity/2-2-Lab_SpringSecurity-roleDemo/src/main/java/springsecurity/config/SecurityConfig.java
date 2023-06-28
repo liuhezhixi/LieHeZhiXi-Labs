@@ -1,4 +1,4 @@
-package config;
+package springsecurity.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
 
 /**
  * 创建 SecurityConfig 配置类，继承 WebSecurityConfigurerAdapter 抽象类，实现 Spring Security 在 Web 场景下的自定义配置。
@@ -16,7 +17,8 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    /**
+    /** 配置用户信息服务（查询用户信息）
+     *
      * 首先，我们重写 #configure(AuthenticationManagerBuilder auth) 方法，实现 AuthenticationManager 认证管理器。注意这是认证！
      * - 这里的入参 AuthenticationManagerBuilder ，来自父类 WebSecurityConfigurerAdapter
      *
@@ -29,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      *
      *
      * <Y> 处，调用 AbstractDaoAuthenticationConfigurer#passwordEncoder(passwordEncoder) 方法，设置 PasswordEncoder 密码编码器。
+     * - 密码编码器的作用，是把查询出来的用户密码和用户输入的密码进行比对的方式。
      * - 在这里，为了方便，我们使用 NoOpPasswordEncoder 。实际上，等于不使用 PasswordEncoder ，不配置的话会报错。
      * - 生产环境下，推荐使用 BCryptPasswordEncoder 。更多关于 PasswordEncoder 的内容，推荐阅读《该如何设计你的 PasswordEncoder?》文章。【https://www.iocoder.cn/Spring-Security/laoxu/PasswordEncoder/?self】
      *
@@ -48,10 +51,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // <z> 配置 admin 用户
             .withUser("admin").password("admin").roles("ADMIN")
             // <z> 配置 normal 用户
-            .and().withUser("normal").password("normal").roles("NORMAL");
+            .and().withUser("normal").password("normal").roles("NORMAL")
+            // <z> 配置 biao 用户
+            .and().withUser("biao").password("biao").roles("NORMAL","ADMIN");
     }
 
-    /**
+    /** 配置安全拦截机制
+     *
      * 然后，我们重写 #configure(HttpSecurity http) 方法，主要配置 URL 的权限控制。
      *
      *
@@ -86,23 +92,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+            .csrf().disable() //security4.0之后会默认开启csrf安全验证,需要我们手动去关闭.
             // <x> 配置请求地址的权限
             .authorizeRequests()
-                .antMatchers("/test/demo").permitAll() // 所有用户可访问
+                .antMatchers("/test/demo1","/test/demo2").permitAll() // 所有用户可访问
                 .antMatchers("/test/admin").hasRole("ADMIN") // 需要 ADMIN 角色
                 .antMatchers("/test/normal").access("hasRole('ROLE_NORMAL')") // 需要 NORMAL 角色。
+                .antMatchers("/test/remix1").access("hasRole('ROLE_ADMIN') and hasRole('ROLE_NORMAL')") // 需要同时有用两个权限
+                .antMatchers("/test/remix2").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_NORMAL')") //两个权限，拥有其中一个即可
                 // 任何请求，访问的用户都需要经过认证
                 .anyRequest().authenticated()
             .and()
             // <y> 设置 Form 表单登陆
             .formLogin()
                 //.loginPage("/login") // 自定义 登陆 URL 地址
-                .permitAll() // 所有用户可访问
+                .loginProcessingUrl("/test/processing") //填写验证登录的请求地址 todo 待研究怎么用
+                .successForwardUrl("/test/loginSuccess") //设置登陆成功，自动跳转页面。注意这里接口必须是post！
+                .failureForwardUrl("/test/loginFailure") //设置登陆失败，自动跳转页面。注意这里接口必须是post！
+                //.permitAll() // 所有用户可访问
             .and()
             // <z> 配置退出相关
             .logout()
                 //.logoutUrl("/logout") // 自定义 退出 URL 地址
-                .permitAll(); // 所有用户可访问
+                .logoutSuccessUrl("/test/logoutSuccess") //设置退出成功，自动跳转页面。注意这里接口必须是post！
+                //.permitAll()// 所有用户可访问
+            //todo 待研究
+            // 添加权限不足跳转,以及cookie保存
+            .and()
+                .exceptionHandling().accessDeniedPage("/security/denied")
+                .and()
+                .rememberMe()
+                .key("jbzm-Security")
+                .rememberMeCookieName("cookieName")
+                .rememberMeParameter("paramName")
+                .tokenRepository(new InMemoryTokenRepositoryImpl());
     }
 
 

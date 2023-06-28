@@ -1,6 +1,7 @@
-package controller;
+package springsecurity.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,9 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class TestController {
 
-    @GetMapping("/demo")
-    public String demo() {
-        return "示例返回";
+    @GetMapping("/demo1")
+    public String demo1() {
+        return "免认证，示例返回1";
+    }
+
+    @GetMapping("/demo2")
+    public String demo2() {
+        return "免认证，示例返回2";
     }
 
     @GetMapping("/home")
@@ -36,6 +42,36 @@ public class TestController {
     @GetMapping("/normal")
     public String normal() {
         return "我是普通用户";
+    }
+
+    @GetMapping("/remix1")
+    public String remix1() {
+        return "同时两个权限";
+    }
+
+    @GetMapping("/remix2")
+    public String remix2() {
+        return "两个权限，拥有任意一个";
+    }
+
+    @PostMapping("/processing")
+    public String processing() {
+        return "填写验证登录的请求地址";
+    }
+    @PostMapping("/loginSuccess")
+    public String loginSuccess() {
+        return "登陆成功，自动跳转过来的页面";
+    }
+
+
+    @PostMapping("/loginFailure")
+    public String loginFailure() {
+        return "登陆失败！！自动跳转过来的页面";
+    }
+
+    @PostMapping("/logoutSuccess")
+    public String logoutSuccess() {
+        return "退出成功～～自动跳转过来的页面";
     }
 
 }
