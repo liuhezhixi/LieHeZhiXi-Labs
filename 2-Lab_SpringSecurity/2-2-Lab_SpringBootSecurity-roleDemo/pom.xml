@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>2-2-Lab_SpringSecurity-roleDemo</artifactId>
+    <artifactId>2-2-Lab_SpringBootSecurity-roleDemo</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

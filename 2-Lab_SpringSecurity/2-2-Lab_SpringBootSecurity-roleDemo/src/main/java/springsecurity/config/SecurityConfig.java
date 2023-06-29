@@ -6,7 +6,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
 
 /**
  * 创建 SecurityConfig 配置类，继承 WebSecurityConfigurerAdapter 抽象类，实现 Spring Security 在 Web 场景下的自定义配置。
@@ -100,8 +99,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/test/normal").access("hasRole('ROLE_NORMAL')") // 需要 NORMAL 角色。
                 .antMatchers("/test/remix1").access("hasRole('ROLE_ADMIN') and hasRole('ROLE_NORMAL')") // 需要同时有用两个权限
                 .antMatchers("/test/remix2").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_NORMAL')") //两个权限，拥有其中一个即可
+                .antMatchers("/test/justNeedAuthenticated").authenticated() //访问次路径必须经过认证
                 // 任何请求，访问的用户都需要经过认证
-                .anyRequest().authenticated()
+                //.anyRequest().authenticated()
+                .anyRequest().permitAll()
             .and()
             // <y> 设置 Form 表单登陆
             .formLogin()

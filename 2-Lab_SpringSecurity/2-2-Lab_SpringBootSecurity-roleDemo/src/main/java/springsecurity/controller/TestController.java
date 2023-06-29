@@ -19,6 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class TestController {
 
+    @GetMapping("/justNeedAuthenticated")
+    public String justNeedAuthenticated() {
+        return "经过认证，才能进来";
+    }
+
     @GetMapping("/demo1")
     public String demo1() {
         return "免认证，示例返回1";
@@ -54,10 +59,7 @@ public class TestController {
         return "两个权限，拥有任意一个";
     }
 
-    @PostMapping("/processing")
-    public String processing() {
-        return "填写验证登录的请求地址";
-    }
+
     @PostMapping("/loginSuccess")
     public String loginSuccess() {
         return "登陆成功，自动跳转过来的页面";
