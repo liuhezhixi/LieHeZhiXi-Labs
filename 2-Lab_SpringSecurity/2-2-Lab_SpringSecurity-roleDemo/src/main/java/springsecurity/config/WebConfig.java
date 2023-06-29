@@ -14,8 +14,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
+        //当进入"/"根路径后，会自动跳转到/login-view地址，也就是customLogin.jsp页面
         registry.addViewController("/").setViewName("redirect:/login-view");
-        registry.addViewController("/login-view").setViewName("login");
+        registry.addViewController("/login-view").setViewName("customLogin");
 
     }
 

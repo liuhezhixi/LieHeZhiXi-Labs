@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.rememberme.InMemoryTokenR
  */
 @Configuration
 //修改 SecurityConfig 配置类，增加 @EnableGlobalMethodSecurity 注解，开启对 Spring Security 注解的支持，进行权限验证。详情看DemoController接口上面注释
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /** 配置用户信息服务（查询用户信息）
@@ -105,8 +105,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             // <y> 设置 Form 表单登陆
             .formLogin()
-                //.loginPage("/login") // 自定义 登陆 URL 地址
-                .loginProcessingUrl("/test/processing") //填写验证登录的请求地址 todo 待研究怎么用
+                //.loginPage("/login-view") // 自定义 登陆 URL 地址 todo 待研究，如何让mvc自定义待jsp登陆页面生效
+                //.loginProcessingUrl("/loginProcessingUrl") //填写验证登录的请求地址 todo 待研究怎么用
                 .successForwardUrl("/test/loginSuccess") //设置登陆成功，自动跳转页面。注意这里接口必须是post！
                 .failureForwardUrl("/test/loginFailure") //设置登陆失败，自动跳转页面。注意这里接口必须是post！
                 //.permitAll() // 所有用户可访问
@@ -114,18 +114,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // <z> 配置退出相关
             .logout()
                 //.logoutUrl("/logout") // 自定义 退出 URL 地址
-                .logoutSuccessUrl("/test/logoutSuccess") //设置退出成功，自动跳转页面。注意这里接口必须是post！
+                .logoutSuccessUrl("/test/logoutSuccess"); //设置退出成功，自动跳转页面。注意这里接口必须是post！
                 //.permitAll()// 所有用户可访问
             //todo 待研究
             // 添加权限不足跳转,以及cookie保存
+ /*           .and()
+            .exceptionHandling().accessDeniedPage("/security/denied")
             .and()
-                .exceptionHandling().accessDeniedPage("/security/denied")
-                .and()
-                .rememberMe()
-                .key("jbzm-Security")
-                .rememberMeCookieName("cookieName")
-                .rememberMeParameter("paramName")
-                .tokenRepository(new InMemoryTokenRepositoryImpl());
+            .rememberMe()
+            .key("jbzm-Security")
+            .rememberMeCookieName("cookieName")
+            .rememberMeParameter("paramName")
+            .tokenRepository(new InMemoryTokenRepositoryImpl());*/
     }
 
 
