@@ -11,7 +11,7 @@
     <modules>
         <!--如果是不需要用到的module，建议注释掉，需要使用的时候关闭注释即可-->
 
-        <module>1-Lab_Java8-Lambda</module>
+        <module>1-Lab_Java8Lambda</module>
         <module>2-Lab_SpringSecurity</module>
 
     </modules>
