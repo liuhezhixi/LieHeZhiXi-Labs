@@ -1,0 +1,3 @@
+- 芋道 Spring Boot 分布式 Session 入门
+  - 快速入门 Spring Session + Redis
+    - https://www.iocoder.cn/Spring-Boot/Distributed-Session/

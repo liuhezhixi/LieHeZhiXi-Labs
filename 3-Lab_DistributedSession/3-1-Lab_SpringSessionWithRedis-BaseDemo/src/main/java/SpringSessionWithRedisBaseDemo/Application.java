@@ -1,4 +1,4 @@
-package distributedSessionRedis;
+package SpringSessionWithRedisBaseDemo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,6 +9,8 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+
+    //首先情况redis数据库的数据，避免脏数据出现
 
     /**
      * ① 在浏览器中，访问 "http://127.0.0.1:8080/session/get" 接口，返回目前的 Session 的内容。响应结果如下：

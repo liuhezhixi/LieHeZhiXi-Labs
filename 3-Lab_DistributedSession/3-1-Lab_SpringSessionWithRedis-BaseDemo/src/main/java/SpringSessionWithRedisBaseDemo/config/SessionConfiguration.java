@@ -1,4 +1,4 @@
-package distributedSessionRedis.config;
+package SpringSessionWithRedisBaseDemo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +8,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 import org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration;
 
 /**
+ * @EnableRedisHttpSession
  * 自动化配置 Spring Session 使用 Redis 作为数据源
  *
  * @EnableRedisHttpSession 该注解有如下属性：
