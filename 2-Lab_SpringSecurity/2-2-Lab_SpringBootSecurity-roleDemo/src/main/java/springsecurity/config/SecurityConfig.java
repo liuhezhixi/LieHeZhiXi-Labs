@@ -5,6 +5,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 /**
@@ -42,7 +43,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.
+        /**
+         * 使用内存中的 InMemoryUserDetailsManager 的代码示例
+         */
+/*        auth.
             // <x> 使用内存中的 InMemoryUserDetailsManager
             inMemoryAuthentication()
             // <y> 不使用 PasswordEncoder 密码编码器
@@ -52,7 +56,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // <z> 配置 normal 用户
             .and().withUser("normal").password("normal").roles("NORMAL")
             // <z> 配置 biao 用户
-            .and().withUser("biao").password("biao").roles("NORMAL","ADMIN");
+            .and().withUser("biao").password("biao").roles("NORMAL","ADMIN");*/
+
+        /**
+         * 使用 UserDetailsManager 从数据库中抓取数据方式的代码示例
+         *
+         * 使用 BCryptPasswordEncoder 实现其他的编码解析器，这里用BCryptPasswordEncoder示范（可以看test包里面的TestBCrypt.java）。
+         * 如果有其他需求，就模仿BCryptPasswordEncoder实现PasswordEncoder重写其他方法即可
+         */
+        auth
+                .userDetailsService(new CustomUserDetails())
+                .passwordEncoder(new BCryptPasswordEncoder());
     }
 
     /** 配置安全拦截机制
