@@ -13,7 +13,11 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
  * 我们可以通过重写 WebSecurityConfigurerAdapter 的方法，实现自定义的 Spring Security 的配置。
  */
 @Configuration
-//修改 SecurityConfig 配置类，增加 @EnableGlobalMethodSecurity 注解，开启对 Spring Security 注解的支持，进行权限验证。详情看DemoController接口上面注释
+/**
+ * 修改 SecurityConfig 配置类，增加 @EnableGlobalMethodSecurity 注解，开启对 Spring Security 注解的支持，进行权限验证。
+ * 开启 @PreAuthorize,@PostAuthorize, @Secured三类注解的支持
+ * 详情看DemoController接口上面注释
+ */
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -46,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         /**
          * 使用内存中的 InMemoryUserDetailsManager 的代码示例
          */
-/*        auth.
+        auth.
             // <x> 使用内存中的 InMemoryUserDetailsManager
             inMemoryAuthentication()
             // <y> 不使用 PasswordEncoder 密码编码器
@@ -56,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // <z> 配置 normal 用户
             .and().withUser("normal").password("normal").roles("NORMAL")
             // <z> 配置 biao 用户
-            .and().withUser("biao").password("biao").roles("NORMAL","ADMIN");*/
+            .and().withUser("biao").password("biao").roles("NORMAL","ADMIN");
 
         /**
          * 使用 UserDetailsManager 从数据库中抓取数据方式的代码示例
@@ -85,11 +89,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * - #rememberMe() 方法，通过 remember me 登录的用户可访问。
      * - #fullyAuthenticated() 方法，非 remember me 登录的用户可访问。
      * - #hasIpAddress(String ipaddressExpression) 方法，来自指定 IP 表达式的用户可访问。
-     * - 【常用】#hasRole(String role) 方法， 拥有指定角色的用户可访问。
+     * - 【常用】#hasRole(String role) 方法， 拥有指定角色的用户可访问。角色将被增加 “ROLE_” .所以”ADMIN” 将和 “ROLE_ADMIN”进行比较.
      * - 【常用】#hasAnyRole(String... roles) 方法，拥有指定任一角色的用户可访问。
      * - 【常用】#hasAuthority(String authority) 方法，拥有指定权限(authority)的用户可访问。
-     * - 【常用】#hasAuthority(String... authorities) 方法，拥有指定任一权限(authority)的用户可访问。
+     * - 【常用】#hasAnyAuthority(String... authorities) 方法，拥有指定任一权限(authority)的用户可访问。
      * - 【最牛】#access(String attribute) 方法，当 Spring EL 表达式的执行结果为 true 时，可以访问。
+     * - #hasIpAddress(String ipaddressExpression) 限制IP地址或子网
      *
      *
      * <Y> 处，调用 HttpSecurity#formLogin() 方法，设置 Form 表单登录。
@@ -104,6 +109,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        /**
+         * 注意： 规则的顺序是重要的,更具体的规则应该先写！！！
+         *
+         * 下面例子中，因为/admin/login已经被/admin/**规则匹配（/admin/**这个包含了/admin/login，且/admin/**先被配置）因此第二个规则被忽略.
+         *      .antMatchers("/admin/**").hasRole("ADMIN")
+         *      .antMatchers("/admin/login").permitAll()
+         *
+         * 因此,登录页面的规则应该在/admin/**规则之前.例如.
+         *      .antMatchers("/admin/login").permitAll()
+         *      .antMatchers("/admin/**").hasRole("ADMIN")
+         */
         http
             .csrf().disable() //security4.0之后会默认开启csrf安全验证,需要我们手动去关闭.
             // <x> 配置请求地址的权限
@@ -114,9 +130,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/test/remix1").access("hasRole('ROLE_ADMIN') and hasRole('ROLE_NORMAL')") // 需要同时有用两个权限
                 .antMatchers("/test/remix2").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_NORMAL')") //两个权限，拥有其中一个即可
                 .antMatchers("/test/justNeedAuthenticated").authenticated() //访问次路径必须经过认证
-                // 任何请求，访问的用户都需要经过认证
-                //.anyRequest().authenticated()
-                .anyRequest().permitAll()
+                // #authenticated()：任何请求，访问的用户都需要经过认证
+                //.anyRequest().authenticated() //剩余的尚未匹配的资源，全做保护，需要认证。
+                .anyRequest().permitAll() //剩余的尚未匹配的资源，不做保护。
             .and()
             // <y> 设置 Form 表单登陆
             .formLogin()

@@ -47,4 +47,21 @@ public class DemoController {
         return "我是普通用户";
     }
 
+
+    /**
+     * 法需要同时拥有p_transfer和p_read_account权限才能访问，底层使用WebExpressionVoter投票器，可从AﬃrmativeBased第23行代码跟踪。
+     * @return
+     */
+    @PreAuthorize("hasAuthority('p_transfer') and hasAuthority('p_read_account')")
+    @GetMapping("/authMix")
+    public String authMix() {
+        return "我是需要混合权限";
+    }
+
+
+    @PreAuthorize("isAnonymous()")
+    public String findAccounts(){
+        return "我是需要混合权限";
+    };
+
 }
