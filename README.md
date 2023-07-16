@@ -1,3 +1,12 @@
-- 1-Lab_Java8-Lambda
-  - java8 lambda表达式使用案例
+- 1-Lab_Java8Lambda
+  - java8新特性lambda表达式使用案例
+---
+- 2-Lab_SpringSecurity
+  - SpringSecurity，相关学习demo
+---- 
+- 3-Lab_DistributedSession
+  - 分布式Session，相关学习demo
+---
+- 4-Lab_oAuth2
+  - OAuth2，相关学习demo
 ---
