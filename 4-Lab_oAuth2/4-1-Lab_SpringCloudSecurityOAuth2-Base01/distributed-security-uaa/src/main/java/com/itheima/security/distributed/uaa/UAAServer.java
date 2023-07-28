@@ -139,10 +139,10 @@ public class UAAServer {
      *      - http://127.0.0.1:53020/uaa/oauth/token?client_id=c1&client_secret=secret&grant_type=client_credentials
      *      - 返回参数：
      *      - {
- *              "access_token": "76d80dc1-d184-412f-884a-2e44cbed8f74",
- *              "token_type": "bearer",
- *              "expires_in": 7199,
- *              "scope": "all"
+     *            "access_token": "76d80dc1-d184-412f-884a-2e44cbed8f74",
+     *            "token_type": "bearer",
+     *            "expires_in": 7199,
+     *            "scope": "all"
      *         }
      */
 }
