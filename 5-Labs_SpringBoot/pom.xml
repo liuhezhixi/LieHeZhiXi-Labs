@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>5-1-Lab_EventPushListener-Sync</module>
+        <module>5-2-Lab_EventPushListener-Async</module>
     </modules>
 
     <properties>
