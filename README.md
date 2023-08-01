@@ -1,3 +1,8 @@
+- 注意：
+  - 创建新项目，最好使用maven模块来创建
+    - 如果是Springboot项目。可以先创建Springboot项目，然后复制到maven模块里面。
+    - 这样到层级效果是最好到，关闭上级maven模块，下级maven模块自动关闭。
+---
 - 1-Lab_Java8Lambda
   - java8新特性lambda表达式使用案例
 ---

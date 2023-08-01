@@ -14,6 +14,8 @@
     <modules>
         <module>5-1-Lab_EventPushListener-Sync</module>
         <module>5-2-Lab_EventPushListener-Async</module>
+        <module>5-3-Lab_EventPushListener-Sync</module>
+        <module>5-4-Lab_EventPushListener-Async</module>
     </modules>
 
     <properties>
