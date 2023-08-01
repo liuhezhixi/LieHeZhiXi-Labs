@@ -1,4 +1,0 @@
-- SpringBoot 整合 
-  - Event Push Listener 事件发布和监听
-  - 来实现基础Spring框架的发布订阅
-  - 异步版本
