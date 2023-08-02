@@ -17,7 +17,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>distributed-security-uaa</module>
+        <module>distributed-security-uaa-forBase01</module>
     </modules>
 
     <properties>

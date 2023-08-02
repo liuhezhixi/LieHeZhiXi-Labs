@@ -15,7 +15,7 @@
         <!--<module>2-Lab_SpringSecurity</module>-->
         <!--<module>3-Lab_DistributedSession</module>-->
         <module>4-Lab_oAuth2</module>
-        <module>5-Labs_SpringBoot</module>
+        <!--<module>5-Labs_SpringBoot</module>-->
     </modules>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
