@@ -14,7 +14,8 @@
 
     <modules>
         <!--<module>4-1-Lab_SpringCloudSecurityOAuth2-Base01</module>-->
-        <module>4-2-Lab_SpringCloudSecurityOAuth2-Base02</module>
+        <!--<module>4-2-Lab_SpringCloudSecurityOAuth2-Base02</module>-->
+        <module>4-3-Lab_SpringCloudSecurityOAuth2-Base03</module>
     </modules>
 
     <properties>

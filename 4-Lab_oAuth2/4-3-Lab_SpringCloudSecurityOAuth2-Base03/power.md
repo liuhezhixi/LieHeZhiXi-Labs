@@ -1,0 +1,9 @@
+- SpringCloud + Oauth2 + SpringSecurity
+- base01 
+  - 授权服务（uaa）的搭建
+  - 资源服务（order）的搭建
+  - 加JWT来代替传统OAuth2.O的token
+  - ———————————————————
+  - 授权服务（uaa）测试
+  - 资源服务（order）测试
+  - 加JWT来代替传统OAuth2.O的token
